@@ -1,4 +1,4 @@
-// app.js - 회원가입 엔드포인트 구현
+// app.js - 회원가입 엔드포인트 구현 - 게시글 생성 엔드포인트 구현
 
 const users = [
      {
@@ -42,16 +42,30 @@ const hRL = function(request, response){
                request.on('data', (data) => {body += data;})
                
                request.on('end', () => {
-                    const user = JSON.parse(body);
+                    const content = JSON.parse(body);
 
-                    users.push({
-                         id: user.id,
-                         name: user.name,
-                         email: user.email,
-                         password: user.password
-                    })
-                    response.writeHead(200, {'Content-Type':"application/json"});
-                    response.end(JSON.stringify({ message: 'userCreated'}));
+                    if(url=='/users'){
+                         users.push({
+                              id: content.id,
+                              name: content.name,
+                              email: content.email,
+                              password: content.password
+                         })
+                         response.writeHead(200, {'Content-Type':"application/json"});
+                         response.end(JSON.stringify({ message: 'userCreated'}));
+                    }
+                    else if (url=='/posts'){
+                         posts.push({
+                              id: content.id,
+                              title: content.title,
+                              content: content.content,
+                              userId: content.userId
+                         })
+                         response.writeHead(200, {'Content-Type':"application/json"});
+                         response.end(JSON.stringify({ message: 'postCreated'}));
+                    }
+
+                    
                })
           }
 };
